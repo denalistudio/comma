@@ -17,7 +17,7 @@ const upload = multer({ storage: storage });
 app.use(express.static(__dirname + "/public"));
 app.use("/uploads", express.static("uploads"));
 
-app.post("/upload", upload.array("images", 12), (req, res, next) => {
+app.post("/upload", upload.array("images", 12), (req: any, res, next) => {
     var response = '<a href="/">Home</a>';
     response += "Files uploaded succesfully.";
     for (var i = 0; i < req.files.length; i++) {
