@@ -1,29 +1,29 @@
-const fs = require("fs");
-const path = require("path");
-const multer = require("multer");
 const express = require("express");
+const multer = require("multer");
 const app = express();
+const port = 8000;
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "Images")
+        cb(null, "uploads")
     },
     filename: (req, file, cb) => {
         console.log(file)
-        cb(null, Date.now() + path.extname(file.originalname))
+        cb(null, file.originalname)
     }
 });
 const upload = multer({storage: storage});
 
-app.set("view engine", "ejs");
+app.use(express.static(__dirname + "/public"));
+app.use("/uploads", express.static("uploads"));
 
-app.get("/upload", (req, res) => {
-    res.render("upload");
+app.post("/upload", upload.array("images", 12), (req, res, next) => {
+    var response = '<a href="/">Home</a>';
+    response += "Files uploaded succesfully.";
+    for (var i=0; i<req.files.length; i++) {
+        response += `<img src="${req.files[i].path}">`;
+    }
+    return res.send(response);
 });
 
-app.post("/upload", upload.single("image"), (req, res) => {
-    res.send("Image uploaded");
-});
-
-app.listen(8000);
-console.log("Listening on port 8000");
+app.listen(port, () => console.log(`Server is running on port ${port}!`))
