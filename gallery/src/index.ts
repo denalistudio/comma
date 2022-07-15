@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-app.use(express.static(__dirname + "/public"));
+app.use(express.static("public"));
 app.use("/uploads", express.static("uploads"));
 
 app.post("/upload", upload.array("images", 12), (req: any, res, next) => {
