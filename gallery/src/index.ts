@@ -1,8 +1,18 @@
 import express, { Request, Response, Application } from "express";
-import { Twilio } from "twilio";
+import Twilio from "twilio";
 import multer from "multer";
 const app: Application = express();
 const PORT = process.env.port || 8000;
+
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const client = Twilio(accountSid, authToken)
+
+client.verify.v2.services("VAXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+      .verificationChecks
+      .create({to: "+420732357391", code: "123456"})
+      .then(verification_check => console.log(verification_check.status));
+
 
 /* SMS Verification from Twilio
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
