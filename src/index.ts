@@ -1,38 +1,9 @@
+import path from "path";
 import express, { Request, Response, Application } from "express";
-import Twilio from "twilio";
 import multer from "multer";
+import serveIndex from "serve-index";
 const app: Application = express();
 const PORT = process.env.port || 8000;
-
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-const client = Twilio(accountSid, authToken)
-
-client.verify.v2.services("VAXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-      .verificationChecks
-      .create({to: "+420732357391", code: "123456"})
-      .then(verification_check => console.log(verification_check.status));
-
-
-/* SMS Verification from Twilio
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-const twilioNumber = process.env.TWILIO_PHONE_NUMBER;
-const myNumber = process.env.MY_NUMBER;
-
-if (accountSid && authToken && myNumber && twilioNumber) {
-    const client = new Twilio(accountSid, authToken);
-
-    client.messages
-        .create({
-            from: twilioNumber,
-            to: myNumber,
-            body: "You just sent an SMS from TypeScript using Twilio!",
-        })
-        .then((message) => console.log(message.sid));
-} else {
-    console.error("You are missing one of the variables you need to send a message");
-}*/
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -47,6 +18,7 @@ const upload = multer({ storage: storage });
 
 app.use(express.static("public"));
 app.use("/uploads", express.static("uploads"));
+app.use("/uploads", serveIndex(path.join(__dirname, '/uploads')));
 
 app.post("/upload", upload.array("images", 12), (req: any, res, next) => {
     var response = '<a href="/">Home</a>';
