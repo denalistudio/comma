@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Studio Denali">
-    <title>Upload images</title>
     <link rel="stylesheet" href="./style.css">
 </head>
 
@@ -16,6 +15,9 @@
         <input type="file" name="images" required multiple>
         <input type="submit" value="Upload">
     </form>
+    <% for (const image of images) { %>
+        <img src="<% image.img %>">
+    <% } %>
 </body>
 
 </html>
