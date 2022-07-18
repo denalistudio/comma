@@ -17,6 +17,9 @@
     </form>
     <% for (const image of images) { %>
         <img src="<%= image.img %>">
+        <form method="delete" action="">
+            <input type="submit" value="Delete">
+        </form>
     <% } %>
 </body>
 
