@@ -3,7 +3,6 @@ import path from "path";
 import express, { Request, Response, Application } from "express";
 import multer from "multer";
 import serveIndex from "serve-index";
-import { ItemAssignmentInstance } from "twilio/lib/rest/numbers/v2/regulatoryCompliance/bundle/itemAssignment";
 const app: Application = express();
 const PORT = process.env.port || 8000;
 
