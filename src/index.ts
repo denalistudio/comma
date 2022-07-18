@@ -3,6 +3,7 @@ import path from "path";
 import express, { Request, Response, Application } from "express";
 import multer from "multer";
 import serveIndex from "serve-index";
+import { ItemAssignmentInstance } from "twilio/lib/rest/numbers/v2/regulatoryCompliance/bundle/itemAssignment";
 const app: Application = express();
 const PORT = process.env.port || 8000;
 
@@ -40,22 +41,18 @@ app.get("/", (req, res) => {
     fs.readdir("uploads", (err, result) => {
         if (err) {
             return console.log("Unable to scan directory: " + err);
-        } else if (result && result.length) {
-            const images = [];
-            for (const item of result) {
-                const img = "/upload/" + item;
-                images.push({ img });
-            }
-
-            res.render("index", {
-                title: "Studio Denali CMS",
-                images
-            })
-        } else {
-            res.render("index", {
-                images: []
-            })
         }
+
+        const images = [];
+        for (const item of result) {
+            const img = "/uploads/" + item;
+            images.push({ img });
+        }
+        console.log(images);
+        res.render("index", {
+            title: "Studio Denali CMS",
+            images
+        })
     })
 })
 
