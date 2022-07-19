@@ -8,7 +8,6 @@ import uuid from "uuid";
 import serveIndex from "serve-index";
 
 const app: Application = express();
-const PORT = process.env.port || 8000;
 
 // Body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -19,7 +18,7 @@ app.set("view engine", "ejs");  // Sets EJS as default view engine
 app.use(express.static(path.join(__dirname, "../public")));
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
-app.use("/uploads", serveIndex(path.join(__dirname, "/uploads")));
+//app.use("/uploads", serveIndex(path.join(__dirname, "/uploads")));
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -60,4 +59,5 @@ app.post("/upload", upload.array("images", 12), (req: any, res, next) => {
     return res.send(response);
 });
 
+const PORT = process.env.port || 8000;
 app.listen(PORT, (): void => console.log(`Server is running on port ${PORT}!`))
