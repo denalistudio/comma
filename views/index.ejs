@@ -5,22 +5,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Studio Denali">
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <p>Studio Denali CMS - Gallery</p>
     <h1>Upload images</h1>
-    <form method="post" action="/upload" enctype="multipart/form-data">
-        <input type="file" name="images" required multiple>
+    <form id="upload-form" method="post" action="/upload" enctype="multipart/form-data">
+        <input type="file" name="images" id="images" required multiple>
         <input type="submit" value="Upload">
     </form>
-    <% for (const image of images) { %>
-        <img src="<%= image.img %>">
-        <form method="delete" action="">
-            <input type="submit" value="Delete">
-        </form>
-    <% } %>
+    <div class="gallery">
+        <% for (const image of images) { %>
+            <a class="single-img" href="<%= image.img %>" target="_blank">
+                <img src="<%= image.img %>">
+            </a>
+            <% } %>
+    </div>
+    <script src="jquery-3.6.0.min.js"></script>
+    <script>
+        /*document.getElementById('upload-form').onsubmit = function (event) {
+            event.preventDefault() // prevent form from posting without JS
+            var xhttp = new XMLHttpRequest(); // create new AJAX request
+
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) { // sucess from server
+                    document.getElementById("status").innerHTML = 'sent' + this.responseText + xhttp.status;
+                } else { // errors occured
+                    document.getElementById("status").innerHTML = xhttp.status;
+                }
+            }
+
+            xhttp.open("POST", "upload")
+            var formData = new FormData()
+            formData.append('images', document.getElementById('images').files[0]) // since inputs allow multi files submission, therefore files are in array
+            xhttp.send(formData)
+        }*/
+    </script>
 </body>
 
 </html>
